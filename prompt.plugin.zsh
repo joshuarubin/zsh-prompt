@@ -13,4 +13,4 @@ autoload -Uz $fdir/*(:t)
 autoload -Uz promptinit && promptinit
 
 # Load the prompt theme.
-prompt joshuarubin
+prompt nicoulaj
