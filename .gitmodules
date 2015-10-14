@@ -1,0 +1,6 @@
+[submodule "external/pure"]
+	path = external/pure
+	url = https://github.com/sindresorhus/pure.git
+[submodule "external/agnoster"]
+	path = external/agnoster
+	url = https://gist.github.com/3712874.git
