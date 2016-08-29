@@ -40,6 +40,12 @@ function prompt_sorin_pwd {
   fi
 }
 
+function prompt_sorin_virtualenv {
+  if [ -n "$VIRTUAL_ENV" ]; then
+    echo "(virtualenv)"
+  fi
+}
+
 function prompt_sorin_git_info {
   if (( _prompt_sorin_precmd_async_pid > 0 )); then
     # Append Git status.
@@ -82,11 +88,6 @@ function prompt_sorin_precmd {
   # Kill the old process of slow commands if it is still running.
   if (( _prompt_sorin_precmd_async_pid > 0 )); then
     kill -KILL "$_prompt_sorin_precmd_async_pid" &>/dev/null
-  fi
-
-  # Check for activated virtualenv
-  if (( $+functions[python-info] )); then
-    python-info
   fi
 
   # Compute slow commands in the background.
@@ -132,11 +133,8 @@ function prompt_sorin_setup {
   zstyle ':prezto:module:git:info:keys' format \
     'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
 
-  # %v - virtualenv name.
-  zstyle ':prezto:module:python:info:virtualenv' format '(%v)'
-
   # Define prompts.
-  PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}$python_info[virtualenv] ${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
+  PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}$(prompt_sorin_virtualenv) ${_prompt_sorin_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
   RPROMPT=''
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
